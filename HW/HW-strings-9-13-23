@@ -1,0 +1,10 @@
+#greeting
+print('Oh, hey. Did not see you there!')
+#ask for input
+name = input('What is your name?')
+#shows it works and ensures capitalization
+print('Hey ' + name.capitalize())
+#asks for color
+color = input('So what is your favorite color? It does not even have to be a color')
+#completes conversation
+print('No way! ' + name.capitalize() + ', ' + color + ' ' + 'is my favorite too!')
