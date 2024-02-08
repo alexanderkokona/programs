@@ -22,7 +22,6 @@ else:
     print("I need a valid answer, silly goose")
     next = input("Then do you love me? (y/n)\n").lower
 
-
 if answ == 'y':
     print("I love you to :)))")
 
