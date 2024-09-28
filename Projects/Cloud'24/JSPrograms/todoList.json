@@ -1,0 +1,22 @@
+[
+  {
+    "text": "hang curtains",
+    "priority": "high"
+  },
+  {
+    "text": "clean family room",
+    "priority": "high"
+  },
+  {
+    "text": "cuddle ;)",
+    "priority": "high"
+  },
+  {
+    "text": "do hw",
+    "priority": "medium"
+  },
+  {
+    "text": "buy groceries",
+    "priority": "low"
+  }
+]
