@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        .input-container input, select {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Math Operations</h1>
+
+    <div class="input-container">
+        <input type="number" id="num1" placeholder="Enter first number">
+        <select id="operation">
+            <option value="add">Add</option>
+            <option value="subtract">Subtract</option>
+            <option value="multiply">Multiply</option>
+            <option value="divide">Divide</option>
+            <option value="exponent">Exponent</option>
+        </select>
+        <input type="number" id="num2" placeholder="Enter second number">
+    </div>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+
+    <!-- Linking the external JavaScript file -->
+    <script src="alexkokona.js"></script>
+
+</body>
+</html>
