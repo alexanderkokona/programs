@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resin Trinkets</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="header">
+        <img src="img/logo Resin Trinkets v4.jpg" alt="Store Logo">
+        <nav class="nav">
+            <a href="#">Home</a>
+            <a href="#">Store</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+            <!-- Cart Icon -->
+            <div class="cart-icon">
+                <img src="img/cart-icon.png" alt="Cart" id="cart-icon">
+                <span id="cart-count">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Cart Section (Hidden initially) -->
+    <section id="cart-section" class="cart-section hidden">
+        <h2>Your Cart</h2>
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <button id="checkout-btn">Checkout</button>
+    </section>
+
+    <!-- Featured Product Section -->
+    <section class="featured-product">
+        <h2>Featured Product: High-Precision Resin Printer</h2>
+        <div class="product-feature">
+            <img src="img/hex-chest-mahogany-cat-ranger-turquoise-dice-white.webp" alt="Featured Resin Trinket"> <!-- Replace with the featured product image -->
+            <div class="product-info">
+                <p>Dice Hex-Chest</p>
+                <p><strong>Price: $24.99</strong></p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products">
+        <h2>Our Trinkets</h2>
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-item">
+                <img src="img/dice-tower.webp" alt="Resin Printer 1">
+                <p>Dice Tower</p>
+                <p><strong>Price: $29.99</strong></p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <!-- Product 2 -->
+            <div class="product-item">
+                <img src="img/rings.webp" alt="Resin Printer 2"> <!-- Replace with product image -->
+                <p>Custom Jewelry</p>
+                <p><strong>Price: Starting $49.99</strong></p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <!-- Product 3 -->
+            <div class="product-item">
+                <img src="img/stencils.webp" alt="Resin Printer 3"> <!-- Replace with product image -->
+                <p>Drawing Stencils</p>
+                <p><strong>Price: $9.99</strong></p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+            <!-- Product 4 -->
+            <div class="product-item">
+                <img src="img/mini-figs.webp" alt="Resin Printer 4"> <!-- Replace with product image -->
+                <p>Mini-Figures</p>
+                <p><strong>Price: $19.99</strong></p>
+                <button class="add-to-cart-btn">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <h2>Contact Us</h2>
+        <p>Email: resintrinketscontact@gmail.com</p>
+        <div class="social-links">
+            <a href="https://discord.com/yourprofile">Discord</a>
+            <a href="https://linkedin.com/in/yourprofile">LinkedIn</a>
+            <a href="https://instagram.com/yourprofile">Instagram</a>
+        </div>
+    </footer>
+
+    <!-- Link to the external JavaScript file -->
+    <script src="cart.js"></script>
+</body>
+</html>

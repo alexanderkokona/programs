@@ -1,0 +1,333 @@
+**************add to html*************
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.stripe.com/v3/"></script> <!-- Stripe.js library -->
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+    </header>
+    
+    <section class="checkout">
+        <form id="payment-form">
+            <div id="card-element">
+                <!-- A Stripe Element will be inserted here. -->
+            </div>
+            <button id="submit">Pay</button>
+            <div id="card-errors" role="alert"></div>
+        </form>
+    </section>
+
+    <script src="checkout.js"></script>
+</body>
+</html>
+************************
+<section id="cart-section" class="cart-section hidden">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total"></div>
+    <button id="checkout-btn">Checkout</button>
+</section>
+
+***********add to css************
+/* Simple styling for the checkout page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+}
+
+header h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.checkout {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+#payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#card-element {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#card-errors {
+    color: red;
+}
+*******************************
+/* Checkout Button */
+#checkout-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#checkout-btn:hover {
+    background-color: #218838;
+}
+
+
+*********add to checkout.js************
+
+// Your Stripe public key (use test key for development)
+const stripe = Stripe('your-public-key-here');
+
+// Create an instance of Stripe Elements
+const elements = stripe.elements();
+const cardElement = elements.create('card');
+
+// Add the card element to the page
+cardElement.mount('#card-element');
+
+// Handle form submission
+const form = document.getElementById('payment-form');
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Disable the submit button to prevent multiple clicks
+    document.getElementById('submit').disabled = true;
+
+    const { paymentMethod, error } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+    });
+
+    if (error) {
+        // Display error message
+        document.getElementById('card-errors').textContent = error.message;
+        document.getElementById('submit').disabled = false;
+    } else {
+        // Send the payment method to your server for processing
+        handlePayment(paymentMethod);
+    }
+});
+
+function handlePayment(paymentMethod) {
+    // Here you would send the paymentMethod.id to your backend for processing the payment.
+    // For demonstration, we'll log it to the console.
+
+    console.log('Payment Method ID: ', paymentMethod.id);
+
+    // Simulate successful payment
+    alert('Payment successful! Thank you for your purchase.');
+
+    // Enable the button again
+    document.getElementById('submit').disabled = false;
+}
+
+*******add to cart*******
+// Initialize cart as an empty array
+let cart = [];
+
+// Select elements
+const cartIcon = document.getElementById('cart-icon');
+const cartSection = document.getElementById('cart-section');
+const cartItemsContainer = document.getElementById('cart-items');
+const cartTotal = document.getElementById('cart-total');
+const cartCount = document.getElementById('cart-count');
+const checkoutBtn = document.getElementById('checkout-btn');
+
+// Show cart when clicking the cart icon
+cartIcon.addEventListener('click', () => {
+    cartSection.classList.toggle('hidden');
+});
+
+// Add to Cart function
+function addToCart(productName, productPrice) {
+    // Check if item is already in cart
+    const existingItem = cart.find(item => item.name === productName);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        cart.push({
+            name: productName,
+            price: productPrice,
+            quantity: 1
+        });
+    }
+    updateCart();
+}
+
+// Remove from Cart function
+function removeFromCart(productName) {
+    cart = cart.filter(item => item.name !== productName);
+    updateCart();
+}
+
+// Update cart UI
+function updateCart() {
+    cartItemsContainer.innerHTML = ''; // Clear current items
+    let total = 0;
+
+    // Loop through cart items
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        // Create cart item element
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+            <p>${item.name} - $${item.price.toFixed(2)} x ${item.quantity}</p>
+            <button class="remove-btn" data-name="${item.name}">Remove</button>
+        `;
+        cartItemsContainer.appendChild(cartItem);
+    });
+
+    // Update total price and cart count
+    cartTotal.innerHTML = `Total: $${total.toFixed(2)}`;
+    cartCount.innerHTML = cart.length;
+
+    // Add event listeners to remove buttons
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const productName = e.target.dataset.name;
+            removeFromCart(productName);
+        });
+    });
+}
+
+// Handle add to cart button clicks
+document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const productItem = e.target.closest('.product-item');
+        const productName = productItem.dataset.name;
+        const productPrice = parseFloat(productItem.dataset.price);
+        addToCart(productName, productPrice);
+    });
+});
+
+// Handle checkout button click
+checkoutBtn.addEventListener('click', () => {
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    // Simulate checkout
+    alert("Thank you for your purchase! Your total is $" + calculateTotal() + ".");
+
+    // Clear the cart after checkout
+    cart = [];
+    updateCart();
+});
+
+// Calculate total price
+function calculateTotal() {
+    let total = 0;
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+    return total.toFixed(2);
+}
+
+
+*********Set up Your Backend (Node.js Example)**********
+bash
+npm install express stripe body-parser
+
+*******add to server.js******
+const express = require('express');
+const Stripe = require('stripe');
+const bodyParser = require('body-parser');
+const app = express();
+
+// Your Stripe secret key
+const stripe = Stripe('your-secret-key-here');
+
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+// Endpoint to handle the payment
+app.post('/create-payment-intent', async (req, res) => {
+    const { amount } = req.body;
+
+    try {
+        // Create a PaymentIntent with the order amount
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount, // In cents
+            currency: 'usd',
+        });
+
+        res.send({
+            clientSecret: paymentIntent.client_secret,
+        });
+    } catch (error) {
+        res.status(500).send({ error: error.message });
+    }
+});
+
+// Start the server
+app.listen(3000, () => console.log('Server listening on port 3000'));
+
+async function handlePayment(paymentMethod) {
+    const response = await fetch('/create-payment-intent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount: 1999 }), // Example amount (in cents)
+    });
+
+    const data = await response.json();
+
+    const { error, paymentIntent } = await stripe.confirmCardPayment(data.clientSecret, {
+        payment_method: paymentMethod.id,
+    });
+
+    if (error) {
+        alert(`Payment failed: ${error.message}`);
+    } else if (paymentIntent.status === 'succeeded') {
+        alert('Payment successful! Thank you for your purchase.');
+    }
+}
+
+
+Step 6: Test with Stripe
+Once this is set up, you can test payments with Stripe’s test card numbers. For example, 4242 4242 4242 4242 is a valid test card number.
+
+Going Live
+Once you're done testing:
+
+Switch to your live keys in the Stripe dashboard.
+Update your Stripe API keys in both the client-side and server-side code.
+This will enable you to securely process real payments on your store.
+
